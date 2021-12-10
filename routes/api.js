@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const router = require("express").Router();
 const Workout = require("../models/workout.js");
 
@@ -5,6 +6,9 @@ const Workout = require("../models/workout.js");
 router.post("/api/workouts", ({ body }, res) => {
   Workout.create(body)
     .then((dbWorkout) => {
+
+      console.log(dbWorkout);
+
       res.json(dbWorkout);
     })
     .catch((err) => {
@@ -27,6 +31,8 @@ router.get("/api/workouts", (req, res) => {
 // gets workouts from db for display on "/stats" page. Is this where I would dynamically populate duration?
 router.get("/api/workouts/range", (req, res) => {
 	Workout.find({}, null, { sort: { day: 1 } })
+    .limit(7)
+
 		.then((dbWorkout) => {
 			res.json(dbWorkout);
 		})
@@ -36,7 +42,7 @@ router.get("/api/workouts/range", (req, res) => {
 });
 
 
-// updates a workout
+// updates a workout with an exercise
 router.put("/api/workouts/:id", (req, res) => {
 	var workoutID = req.params.id;
 	Workout.create(req.body)
