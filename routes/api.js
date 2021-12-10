@@ -12,11 +12,10 @@ router.post("/api/workouts", ({ body }, res) => {
     });
 });
 
-// fetches workouts for display
+// fetches workouts
 router.get("/api/workouts", (req, res) => {
   Workout.find({})
     .sort({ date: -1 })
-    .populate("exercises")
     .then((dbWorkout) => {
       res.json(dbWorkout);
     })
@@ -24,6 +23,18 @@ router.get("/api/workouts", (req, res) => {
       res.status(400).json(err);
     });
 });
+
+// gets workouts from db for display on "/stats" page. Is this where I would dynamically populate duration?
+router.get("/api/workouts/range", (req, res) => {
+	Workout.find({}, null, { sort: { day: 1 } })
+		.then((dbWorkout) => {
+			res.json(dbWorkout);
+		})
+		.catch((err) => {
+			res.json(err);
+		});
+});
+
 
 // updates a workout
 router.put("/api/workouts/:id", (req, res) => {
