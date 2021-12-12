@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const router = require("express").Router();
-const Workout = require("../models/workout.js");
+const Workout = require("../models/Workout");
 
 // creates a new Workout instance
 router.post("/api/workouts", ({ body }, res) => {
